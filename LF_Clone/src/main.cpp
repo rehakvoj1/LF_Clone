@@ -81,11 +81,12 @@ void UpdateFireball( sf::Sprite& fireballToRender,
                      sf::Clock& fireballElapsed,
                      sf::Clock& fireballCooldownTimer,
                      float dt,
-                     float shootCooldown)
+                     float shootCooldown,
+                     bool& collided )
 {
     if ( fireballCastedWithDir )
     {
-        if ( fireballElapsed.getElapsedTime().asSeconds() < fireballDuration )
+        if ( fireballElapsed.getElapsedTime().asSeconds() < fireballDuration && !collided )
         {
             ImVec2 fireballPos = fireballToRender.getPosition();
             fireballToRender.setPosition( fireballPos.x += fireballSpeed * dt * fireballCastedWithDir, fireballPos.y );
@@ -93,6 +94,7 @@ void UpdateFireball( sf::Sprite& fireballToRender,
         else
         {
             fireballCastedWithDir = 0;
+            collided = false;
             fireballCooldownTimer.restart();
             fireballToRender.setColor( sf::Color::Transparent );
         }
@@ -124,11 +126,12 @@ void UpdateFrostbolt( sf::Sprite& frostboltToRender,
                       float dt, 
                       int& spellCasted,
                       float frostboltDuration,
-                      sf::Clock& frostboltElapsed)
+                      sf::Clock& frostboltElapsed,
+                      bool& collided )
 {
     if ( spellCasted )
     {
-        if ( frostboltElapsed.getElapsedTime().asSeconds() < frostboltDuration )
+        if ( frostboltElapsed.getElapsedTime().asSeconds() < frostboltDuration && !collided )
         {
             ImVec2 frostboltPos = frostboltToRender.getPosition();
             frostboltToRender.setPosition( frostboltPos.x += frostboltSpeed * dt * spellCasted, frostboltPos.y );
@@ -137,6 +140,7 @@ void UpdateFrostbolt( sf::Sprite& frostboltToRender,
         else
         {
             spellCasted = 0;
+            collided = false;
             frostboltToRender.setColor( sf::Color::Transparent );
         }
     }
@@ -162,19 +166,43 @@ void UpdateFrostbolt( sf::Sprite& frostboltToRender,
 }
 
 //=======================================================================================================
-void UpdatePlayerHealth( sf::Clock& healthTimer, float& playerHealth, float healthTick )
+void UpdatePlayerHealth( float& playerHealth, bool fireballCollided )
 {
-    if ( healthTimer.getElapsedTime().asSeconds() > healthTick )
+    if ( fireballCollided )
     {
-        playerHealth -= 1.f;
+        playerHealth -= 20.f;
         if ( playerHealth < 0.0f )
         {
             playerHealth = 100.f;
         }
-        healthTimer.restart();
     }
 }
 
+//=======================================================================================================
+void CheckCollisions( sf::Sprite& character, 
+                      sf::Sprite& projectile,
+                      int projectileCastedWithDir,
+                      bool& collided )
+{
+    ImVec2 projPos = projectile.getPosition();
+    ImVec2 charPos = character.getPosition();
+    if ( projectileCastedWithDir == 1 )
+    {
+        if ( ( projPos.x + 80 ) - ( charPos.x + 25 ) >= 0 && ( projPos.x + 80 ) < ( charPos.x + 80 ) &&
+             (projPos.y + 40) >= (charPos.y + 30) && ( ( projPos.y + 40 ) <  charPos.y + 60 ) )
+        {
+            collided = true;
+        }
+    }
+    if ( projectileCastedWithDir == -1 )
+    {
+        if ( ( projPos.x ) - ( charPos.x + 80 ) <= 0 && ( projPos.x ) > ( charPos.x ) &&
+             ( projPos.y + 40 ) >= ( charPos.y + 30 ) && ( ( projPos.y + 40 ) < charPos.y + 60 ) )
+        {
+            collided = true;
+        }
+    }
+}
 
 int main()
 {
@@ -240,6 +268,7 @@ int main()
     int frostboltCastedWithDir = 0;
     const float frostboltDuration = 2.0f;
     sf::Clock frostboltElapsed;
+    bool frostBoltCollided = false;
 
     // enemy
     sf::Sprite spriteEnemy( enemyTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
@@ -256,7 +285,7 @@ int main()
     sf::Clock fireballElapsed;
     sf::Clock fireballCooldownTimer;
     const float shootCooldown = 1.0f;
-
+    bool fireballCollided = false;
 
     // game loop
     sf::Clock deltaClock;
@@ -282,11 +311,12 @@ int main()
         if ( window.hasFocus() )
         {
             UpdateSorcerer( sorcererToRender, spriteSorcerer, spriteSorcererMirror, sorcererSpeed, sorcererDir, dt );
-            UpdateFrostbolt( frostboltToRender, spriteSorcerer, spriteFrostbolt, spriteFrostboltMirror, frostboltSpeed, sorcererDir, dt, frostboltCastedWithDir, frostboltDuration, frostboltElapsed );
+            UpdateFrostbolt( frostboltToRender, spriteSorcerer, spriteFrostbolt, spriteFrostboltMirror, frostboltSpeed, sorcererDir, dt, frostboltCastedWithDir, frostboltDuration, frostboltElapsed, frostBoltCollided );
             UpdateEnemy( enemyToRender, spriteEnemy );
-            UpdateFireball( fireballToRender, spriteFireball, spriteEnemy, enemyDir, fireballCastedWithDir, fireballSpeed, fireballDuration, fireballElapsed, fireballCooldownTimer, dt, shootCooldown );
-            UpdatePlayerHealth( healthTimer, playerHealth, healthTick );
-            
+            UpdateFireball( fireballToRender, spriteFireball, spriteEnemy, enemyDir, fireballCastedWithDir, fireballSpeed, fireballDuration, fireballElapsed, fireballCooldownTimer, dt, shootCooldown, fireballCollided );
+            CheckCollisions( sorcererToRender, fireballToRender, fireballCastedWithDir, fireballCollided );
+            CheckCollisions( enemyToRender, frostboltToRender, frostboltCastedWithDir, frostBoltCollided );
+            UpdatePlayerHealth( playerHealth, fireballCollided );
         }
         
 
