@@ -95,7 +95,16 @@
     <ClCompile Include="..\..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\gameplay\Projectile.cpp" />
+    <ClCompile Include="src\gameplay\Enemy.cpp" />
+    <ClCompile Include="src\gameplay\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\gameplay\Projectile.h" />
+    <ClInclude Include="src\gameplay\Enemy.h" />
+    <ClInclude Include="src\gameplay\Player.h" />
+    <ClInclude Include="src\gameplay\Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

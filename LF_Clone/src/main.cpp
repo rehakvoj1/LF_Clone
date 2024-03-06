@@ -12,194 +12,56 @@
 #include <iostream>
 #include <list>
 
-//=======================================================================================================
-void UpdateSorcerer( sf::Sprite& spriteToRender,
-                     sf::Sprite& spriteSorcerer,
-                     sf::Sprite& spriteSorcererMirror,
-                     float sorcererSpeed,
-                     int& sorcererDir,
-                     float dt )
-{
-    
-    ImVec2 sorcererPos = spriteSorcerer.getPosition();
-    if ( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) ||
-         sf::Keyboard::isKeyPressed( sf::Keyboard::Up ) )
-    {
-        spriteSorcerer.setPosition( sorcererPos.x, sorcererPos.y -= sorcererSpeed * dt );
-        spriteSorcererMirror.setPosition( sorcererPos.x, sorcererPos.y -= sorcererSpeed * dt );
-    }
-
-    if ( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) ||
-         sf::Keyboard::isKeyPressed( sf::Keyboard::Down ) )
-    {
-        spriteSorcerer.setPosition( sorcererPos.x, sorcererPos.y += sorcererSpeed * dt );
-        spriteSorcererMirror.setPosition( sorcererPos.x, sorcererPos.y += sorcererSpeed * dt );
-    }
-
-    if ( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) ||
-         sf::Keyboard::isKeyPressed( sf::Keyboard::Left ) )
-    {
-        sorcererDir = -1;
-        spriteSorcerer.setPosition( sorcererPos.x += sorcererSpeed * dt * sorcererDir, sorcererPos.y );
-        spriteSorcererMirror.setPosition( sorcererPos.x += sorcererSpeed * dt * sorcererDir, sorcererPos.y );
-    }
-
-    if ( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) ||
-         sf::Keyboard::isKeyPressed( sf::Keyboard::Right ) )
-    {
-        sorcererDir = 1;
-        spriteSorcerer.setPosition( sorcererPos.x += sorcererSpeed * dt * sorcererDir, sorcererPos.y );
-        spriteSorcererMirror.setPosition( sorcererPos.x += sorcererSpeed * dt * sorcererDir, sorcererPos.y );
-    }
-
-
-    if ( sorcererDir == 1 )
-    {
-        spriteToRender = spriteSorcerer;
-    }
-    else
-    {
-        spriteToRender = spriteSorcererMirror;
-    }
-}
+#include "gameplay/Player.h"
+#include "gameplay/Enemy.h"
 
 //=======================================================================================================
-void UpdateEnemy( sf::Sprite& spriteToRender,
-                  sf::Sprite& spriteEnemy )
+void CheckCollisions( Projectile& source, 
+                      Player& target )
 {
-    spriteToRender = spriteEnemy;
-}
-
-//=======================================================================================================
-void UpdateFireball( sf::Sprite& fireballToRender, 
-                     sf::Sprite& spriteFireball, 
-                     sf::Sprite& spriteEnemy,
-                     int& enemyDir,
-                     int& fireballCastedWithDir, 
-                     float fireballSpeed,
-                     float fireballDuration, 
-                     sf::Clock& fireballElapsed,
-                     sf::Clock& fireballCooldownTimer,
-                     float dt,
-                     float shootCooldown,
-                     bool& collided )
-{
-    if ( fireballCastedWithDir )
-    {
-        if ( fireballElapsed.getElapsedTime().asSeconds() < fireballDuration && !collided )
-        {
-            ImVec2 fireballPos = fireballToRender.getPosition();
-            fireballToRender.setPosition( fireballPos.x += fireballSpeed * dt * fireballCastedWithDir, fireballPos.y );
-        }
-        else
-        {
-            fireballCastedWithDir = 0;
-            collided = false;
-            fireballCooldownTimer.restart();
-            fireballToRender.setColor( sf::Color::Transparent );
-        }
-    }
-    else
-    {
-        if ( fireballCooldownTimer.getElapsedTime().asSeconds() > shootCooldown )
-        {
-            if ( enemyDir == 1 )
-            {
-                fireballToRender = spriteFireball;
-            }
-            
-            fireballToRender.setPosition( spriteEnemy.getPosition().x + 25 * enemyDir, spriteEnemy.getPosition().y - 6 );
-            fireballCastedWithDir = enemyDir;
-            fireballElapsed.restart();
-        }
-    }
-
-}
-
-//=======================================================================================================
-void UpdateFrostbolt( sf::Sprite& frostboltToRender, 
-                      sf::Sprite& spriteSorcerer, 
-                      sf::Sprite& spriteFrostbolt, 
-                      sf::Sprite& spriteFrostboltMirror, 
-                      float frostboltSpeed,
-                      int& sorcererDir,
-                      float dt, 
-                      int& spellCasted,
-                      float frostboltDuration,
-                      sf::Clock& frostboltElapsed,
-                      bool& collided )
-{
-    if ( spellCasted )
-    {
-        if ( frostboltElapsed.getElapsedTime().asSeconds() < frostboltDuration && !collided )
-        {
-            ImVec2 frostboltPos = frostboltToRender.getPosition();
-            frostboltToRender.setPosition( frostboltPos.x += frostboltSpeed * dt * spellCasted, frostboltPos.y );
-
-        }
-        else
-        {
-            spellCasted = 0;
-            collided = false;
-            frostboltToRender.setColor( sf::Color::Transparent );
-        }
-    }
-    else
-    {
-        if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Space ) )
-        {
-            if ( sorcererDir == 1 )
-            {
-                frostboltToRender = spriteFrostbolt;
-            }
-            else
-            {
-                frostboltToRender = spriteFrostboltMirror;
-            }
-            frostboltToRender.setPosition( spriteSorcerer.getPosition().x + 25 * sorcererDir, spriteSorcerer.getPosition().y - 6 );
-            spellCasted = sorcererDir;
-            frostboltElapsed.restart();
-        }
-    }
-
-
-}
-
-//=======================================================================================================
-void UpdatePlayerHealth( float& playerHealth, bool fireballCollided )
-{
-    if ( fireballCollided )
-    {
-        playerHealth -= 20.f;
-        if ( playerHealth < 0.0f )
-        {
-            playerHealth = 100.f;
-        }
-    }
-}
-
-//=======================================================================================================
-void CheckCollisions( sf::Sprite& character, 
-                      sf::Sprite& projectile,
-                      int projectileCastedWithDir,
-                      bool& collided )
-{
-    ImVec2 projPos = projectile.getPosition();
-    ImVec2 charPos = character.getPosition();
-    if ( projectileCastedWithDir == 1 )
+    ImVec2 projPos = source.GetCurrentSprite().getPosition();
+    ImVec2 charPos = target.GetCurrentSprite().getPosition();
+    if ( source.GetDirection() == 1 && source.IsCasted() )
     {
         if ( ( projPos.x + 80 ) - ( charPos.x + 25 ) >= 0 && ( projPos.x + 80 ) < ( charPos.x + 80 ) &&
              (projPos.y + 40) >= (charPos.y + 30) && ( ( projPos.y + 40 ) <  charPos.y + 60 ) )
         {
-            collided = true;
+            source.SetCollision( true );
+            target.TakeDamage( 20 );
         }
     }
-    if ( projectileCastedWithDir == -1 )
+    if ( source.GetDirection() == -1 && source.IsCasted() )
     {
         if ( ( projPos.x ) - ( charPos.x + 80 ) <= 0 && ( projPos.x ) > ( charPos.x ) &&
              ( projPos.y + 40 ) >= ( charPos.y + 30 ) && ( ( projPos.y + 40 ) < charPos.y + 60 ) )
         {
-            collided = true;
+            source.SetCollision( true );
+            target.TakeDamage( 20 );
+        }
+    }
+}
+/* overloaded function is stupid -> better usage of inheritance and polymorphism or even some better design patterns */
+void CheckCollisions( Projectile& source,
+                      Enemy& target )
+{
+    ImVec2 projPos = source.GetCurrentSprite().getPosition();
+    ImVec2 charPos = target.GetCurrentSprite().getPosition();
+    if ( source.GetDirection() == 1 && source.IsCasted() )
+    {
+        if ( ( projPos.x + 80 ) - ( charPos.x + 25 ) >= 0 && ( projPos.x + 80 ) < ( charPos.x + 80 ) &&
+             ( projPos.y + 40 ) >= ( charPos.y + 30 ) && ( ( projPos.y + 40 ) < charPos.y + 60 ) )
+        {
+            source.SetCollision( true );
+            target.TakeDamage( 20 );
+        }
+    }
+    if ( source.GetDirection() == -1 && source.IsCasted() )
+    {
+        if ( ( projPos.x ) - ( charPos.x + 80 ) <= 0 && ( projPos.x ) > ( charPos.x ) &&
+             ( projPos.y + 40 ) >= ( charPos.y + 30 ) && ( ( projPos.y + 40 ) < charPos.y + 60 ) )
+        {
+            source.SetCollision( true );
+            target.TakeDamage( 20 );
         }
     }
 }
@@ -215,32 +77,32 @@ int main()
     sf::Texture sorcererTex;
     if ( !sorcererTex.loadFromFile( "./resource/sorcerer_0b.png" ) )
     {
-        std::cout << "Failed to load texture." << std::endl;
+        std::cout << "Failed to load sorcerer_0b texture." << std::endl;
     }
     sf::Texture sorcererTexMirror;
     if ( !sorcererTexMirror.loadFromFile( "./resource/sorcerer_0b_mirror.png" ) )
     {
-        std::cout << "Failed to load texture." << std::endl;
+        std::cout << "Failed to load sorcerer_0b_mirror texture." << std::endl;
     }
     sf::Texture frostboltTex;
     if ( !frostboltTex.loadFromFile( "./resource/freeze_ball.png" ) )
     {
-        std::cout << "Failed to load texture." << std::endl;
+        std::cout << "Failed to load freeze_ball texture." << std::endl;
     }
     sf::Texture frostboltTexMirror;
     if ( !frostboltTexMirror.loadFromFile( "./resource/freeze_ball_mirror.png" ) )
     {
-        std::cout << "Failed to load texture." << std::endl;
+        std::cout << "Failed to load freeze_ball_mirror texture." << std::endl;
     }
     sf::Texture enemyTex;
     if ( !enemyTex.loadFromFile( "./resource/firen_0.png" ) )
     {
-        std::cout << "Failed to load texture." << std::endl;
+        std::cout << "Failed to load firen_0 texture." << std::endl;
     }
     sf::Texture fireballTex;
     if ( !fireballTex.loadFromFile( "./resource/firen_ball.png" ) )
     {
-        std::cout << "Failed to load texture." << std::endl;
+        std::cout << "Failed to load firen_ball texture." << std::endl;
     }
     
 
@@ -252,40 +114,22 @@ int main()
     // player
     sf::Sprite spriteSorcerer( sorcererTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
     sf::Sprite spriteSorcererMirror( sorcererTexMirror, sf::IntRect( { 720,0 }, { 80,80 } ) );
-    sf::Sprite sorcererToRender;
-    ImVec2 sorcererPos = spriteSorcerer.getPosition();
-    float sorcererSpeed = 200.f;
-    int sorcererDir = 1;
-    float playerHealth = 100.f;
-    sf::Clock healthTimer;
-    float healthTick = .1f; // seconds
+    Player player{ spriteSorcerer, spriteSorcererMirror };
     
     // player's projectile
     sf::Sprite spriteFrostbolt( frostboltTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
     sf::Sprite spriteFrostboltMirror( frostboltTexMirror, sf::IntRect( { 247,0 }, { 80,80 } ) );
-    sf::Sprite frostboltToRender;
-    float frostboltSpeed = 400.f;
-    int frostboltCastedWithDir = 0;
-    const float frostboltDuration = 2.0f;
-    sf::Clock frostboltElapsed;
-    bool frostBoltCollided = false;
-
+    player.SetProjectile( SpriteOrientation::Default, spriteFrostbolt, 400.0f, 2.0f, 0.0f );        
+    player.SetProjectile( SpriteOrientation::Mirror, spriteFrostboltMirror, 400.0f, 2.0f, 0.0f );   // Bad design = redundant information, it doesn't make sense
+    
     // enemy
     sf::Sprite spriteEnemy( enemyTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
-    sf::Sprite enemyToRender;
-    spriteEnemy.setPosition( 80.f, 80.f );
-    int enemyDir = 1;
+    Enemy enemy{ spriteEnemy };
+    
 
     // enemy's projectile
     sf::Sprite spriteFireball( fireballTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
-    sf::Sprite fireballToRender;
-    float fireballSpeed = 800.f;
-    int fireballCastedWithDir = 0;
-    const float fireballDuration = 2.0f;
-    sf::Clock fireballElapsed;
-    sf::Clock fireballCooldownTimer;
-    const float shootCooldown = 1.0f;
-    bool fireballCollided = false;
+    enemy.SetProjectile( SpriteOrientation::Default, spriteFireball, 800.f, 1.f, 1.f );
 
     // game loop
     sf::Clock deltaClock;
@@ -310,26 +154,21 @@ int main()
         ImGui::SFML::Update( window, deltaClock.restart() );
         if ( window.hasFocus() )
         {
-            UpdateSorcerer( sorcererToRender, spriteSorcerer, spriteSorcererMirror, sorcererSpeed, sorcererDir, dt );
-            UpdateFrostbolt( frostboltToRender, spriteSorcerer, spriteFrostbolt, spriteFrostboltMirror, frostboltSpeed, sorcererDir, dt, frostboltCastedWithDir, frostboltDuration, frostboltElapsed, frostBoltCollided );
-            UpdateEnemy( enemyToRender, spriteEnemy );
-            UpdateFireball( fireballToRender, spriteFireball, spriteEnemy, enemyDir, fireballCastedWithDir, fireballSpeed, fireballDuration, fireballElapsed, fireballCooldownTimer, dt, shootCooldown, fireballCollided );
-            CheckCollisions( sorcererToRender, fireballToRender, fireballCastedWithDir, fireballCollided );
-            CheckCollisions( enemyToRender, frostboltToRender, frostboltCastedWithDir, frostBoltCollided );
-            UpdatePlayerHealth( playerHealth, fireballCollided );
+            enemy.OnUpdate( dt );
+            CheckCollisions( enemy.GetProjectile(), player);
+            player.OnUpdate( dt );
+            CheckCollisions( player.GetProjectile(), enemy);
         }
         
 
         // render
         window.clear(sf::Color::Cyan);
-        window.draw( sorcererToRender );
-        window.draw( frostboltToRender );
-        window.draw( enemyToRender );
-        window.draw( fireballToRender );
-
+        player.OnRender( window );
+        enemy.OnRender( window );
+        
         ImGui::Begin( "healthbar",0,ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs );
         ImGui::DrawRectFilled( sf::FloatRect( { 80,0 }, { 100,20 } ), sf::Color::Black );
-        ImGui::DrawRectFilled( sf::FloatRect( { 80,0 }, { playerHealth,20 } ), sf::Color::Red );
+        ImGui::DrawRectFilled( sf::FloatRect( { 80,0 }, { player.GetHealth(),20}), sf::Color::Red);
         ImGui::End();
         ImGui::SFML::Render( window );  // -----> renders ImGui elements
         window.display();   // -----------------> display rendered elements to window 
