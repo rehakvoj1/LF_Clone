@@ -1,5 +1,6 @@
 #include "Player.h"
 
+//=======================================================================================================
 Player::Player( sf::Sprite& spriteDefault, sf::Sprite& spriteMirror ) :
     m_currSprite( SpriteOrientation::Default ),
     m_pos{ 0.0f,0.0f },
@@ -12,6 +13,7 @@ Player::Player( sf::Sprite& spriteDefault, sf::Sprite& spriteMirror ) :
 
 }
 
+//=======================================================================================================
 void Player::OnUpdate( float dt )
 {
     if ( m_health < 0 )
@@ -57,37 +59,44 @@ void Player::OnUpdate( float dt )
     m_frostbolt.OnUpdate( dt ); /* Should be independent of Player -> now updating of player updates projectile */
 }
 
+//=======================================================================================================
 void Player::OnRender( sf::RenderWindow& window )
 {
     window.draw( GetCurrentSprite() );
     window.draw( m_frostbolt.GetCurrentSprite() );
 }
 
+//=======================================================================================================
 sf::Sprite& Player::GetCurrentSprite()
 {
     return m_playerSprites[m_currSprite];
 }
 
+//=======================================================================================================
 int Player::GetDirection()
 {
     return m_currSprite == SpriteOrientation::Default ? 1 : -1;
 }
 
+//=======================================================================================================
 float Player::GetHealth()
 {
     return m_health;
 }
 
+//=======================================================================================================
 Projectile& Player::GetProjectile()
 {
     return m_frostbolt;
 }
 
+//=======================================================================================================
 void Player::SetHealth( float val )
 {
     m_health = val;
 }
 
+//=======================================================================================================
 void Player::SetProjectile( SpriteOrientation so, sf::Sprite sprite, float speed, float duration, float cooldown )
 {
     m_frostbolt.AddSprite( sprite, so );
@@ -96,6 +105,7 @@ void Player::SetProjectile( SpriteOrientation so, sf::Sprite sprite, float speed
     m_frostbolt.SetCooldown( cooldown );
 }
 
+//=======================================================================================================
 void Player::TakeDamage( float damage )
 {
     m_health -= damage;

@@ -15,6 +15,7 @@
 #include "gameplay/Player.h"
 #include "gameplay/Enemy.h"
 
+
 //=======================================================================================================
 void CheckCollisions( Projectile& source, 
                       Player& target )
@@ -40,6 +41,8 @@ void CheckCollisions( Projectile& source,
         }
     }
 }
+
+//=======================================================================================================
 /* overloaded function is stupid -> better usage of inheritance and polymorphism or even some better design patterns */
 void CheckCollisions( Projectile& source,
                       Enemy& target )
@@ -66,6 +69,8 @@ void CheckCollisions( Projectile& source,
     }
 }
 
+//=======================================================================================================
+//=======================================================================================================
 int main()
 {
     // init framework

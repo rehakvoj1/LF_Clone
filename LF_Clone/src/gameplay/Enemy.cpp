@@ -1,5 +1,6 @@
 #include "Enemy.h"
 
+//=======================================================================================================
 Enemy::Enemy( sf::Sprite& spriteDefault ) : 
     m_currSprite( SpriteOrientation::Default ),
     m_pos{ 80.0f, 80.0f },
@@ -10,6 +11,7 @@ Enemy::Enemy( sf::Sprite& spriteDefault ) :
     m_enemySprites[m_currSprite].setPosition( m_pos );
 }
 
+//=======================================================================================================
 Enemy::Enemy( sf::Sprite& spriteDefault, sf::Sprite& spriteMirror ) :
     m_currSprite( SpriteOrientation::Default ),
     m_pos{ 80.0f, 80.0f },
@@ -22,6 +24,7 @@ Enemy::Enemy( sf::Sprite& spriteDefault, sf::Sprite& spriteMirror ) :
 
 }
 
+//=======================================================================================================
 void Enemy::OnUpdate( float dt )
 {
     if ( m_fireball.GetElapsedTime().asSeconds() > m_fireball.GetCooldown() )
@@ -32,27 +35,32 @@ void Enemy::OnUpdate( float dt )
     m_fireball.OnUpdate( dt ); /* Should be independent of Enemy -> now updating of enemy updates projectile */
 }
 
+//=======================================================================================================
 void Enemy::OnRender( sf::RenderWindow& window )
 {
     window.draw( GetCurrentSprite() );
     window.draw( m_fireball.GetCurrentSprite() );
 }
 
+//=======================================================================================================
 sf::Sprite& Enemy::GetCurrentSprite()
 {
     return m_enemySprites[m_currSprite];
 }
 
+//=======================================================================================================
 int Enemy::GetDirection()
 {
     return m_currSprite == SpriteOrientation::Default ? 1 : -1;
 }
 
+//=======================================================================================================
 Projectile& Enemy::GetProjectile()
 {
     return m_fireball;
 }
 
+//=======================================================================================================
 void Enemy::SetProjectile( SpriteOrientation so, sf::Sprite sprite, float speed, float duration, float cooldown )
 {
     m_fireball.AddSprite( sprite, so );
@@ -61,6 +69,7 @@ void Enemy::SetProjectile( SpriteOrientation so, sf::Sprite sprite, float speed,
     m_fireball.SetCooldown( cooldown );
 }
 
+//=======================================================================================================
 void Enemy::TakeDamage( float damage )
 {
     m_health -= damage;
