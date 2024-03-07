@@ -160,17 +160,17 @@ int main()
         ImGui::SFML::Update( window, deltaClock.restart() );
         if ( window.hasFocus() )
         {
-            enemy.OnUpdate( dt );
+            enemy.OnUpdate( dt );   // projectile is updated inside ---> Not good
             CheckCollisions( enemy.GetProjectile(), player);
-            player.OnUpdate( dt );
+            player.OnUpdate( dt );  // projectile is updated inside ---> Not good
             CheckCollisions( player.GetProjectile(), enemy);
         }
         
 
         // render
         window.clear(sf::Color::Cyan);
-        player.OnRender( window );
-        enemy.OnRender( window );
+        player.OnRender( window );  // projectile is rendered inside ---> Not good
+        enemy.OnRender( window );   // projectile is rendered inside ---> Not good
         
         ImGui::Begin( "healthbar",0,ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs );
         ImGui::DrawRectFilled( sf::FloatRect( { 80,0 }, { 100,20 } ), sf::Color::Black );
