@@ -14,7 +14,7 @@ public:
     virtual void OnEnter() { }
     virtual void OnExit() { }
     virtual void OnUpdate() { }
-    bool IsTransitionRequested() { }
+    bool IsTransitionRequested();
 
 protected:
     bool m_transitionIsRequested = false;
