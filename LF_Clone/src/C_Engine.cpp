@@ -82,6 +82,7 @@ bool C_Engine::CreateGameInstance()
     return m_gameInstance;
 }
 
+//===================================================================================================
 void C_Engine::Update()
 {
     m_gameInstance->OnBeforeUpdate( m_deltaTime );
@@ -89,6 +90,7 @@ void C_Engine::Update()
     m_gameInstance->OnPostUpdate( m_deltaTime );
 }
 
+//===================================================================================================
 void C_Engine::Render()
 {
 }

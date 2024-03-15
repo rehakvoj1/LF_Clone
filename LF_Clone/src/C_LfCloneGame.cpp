@@ -9,6 +9,7 @@ I_Game* CreateGame()
 	return new C_LfCloneGame();
 }
 
+//===================================================================================================
 C_LfCloneGame::C_LfCloneGame() : m_gameState( GameState::Init )
 {
 }
