@@ -14,6 +14,7 @@
 
 #include "gameplay/Player.h"
 #include "gameplay/Enemy.h"
+#include "C_Engine.h"
 
 
 //=======================================================================================================
@@ -72,12 +73,17 @@ void CheckCollisions( Projectile& source,
 //=======================================================================================================
 // ***************************************** MAIN FUNCTION **********************************************
 //=======================================================================================================
-int main()
+int main(int argc, char** argv)
 {
     // init framework
-    sf::RenderWindow window( sf::VideoMode( 1280, 960 ), "ImGui + SFML = <3" );
-    //window.setFramerateLimit( 60 );
-    ImGui::SFML::Init( window );
+    C_Engine engine;
+    if ( !engine.Init( EngineInitParams() ) )
+    {
+        return -1;
+    }
+    //engine.Run();
+
+    
 
     // init resource
     sf::Texture sorcererTex;
@@ -137,11 +143,14 @@ int main()
     sf::Sprite spriteFireball( fireballTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
     enemy.SetProjectile( SpriteOrientation::Default, spriteFireball, 800.f, 1.f, 1.f );
 
+
+    sf::RenderWindow& window = C_Engine::GetWindow();
     // game loop
     sf::Clock deltaClock;
     while ( window.isOpen() )
     {
-        float dt = deltaClock.getElapsedTime().asSeconds();
+        sf::Time elapsed = deltaClock.restart();
+        float dt = elapsed.asSeconds();
         // event polling
         sf::Event event;
         while ( window.pollEvent( event ) )
@@ -156,8 +165,8 @@ int main()
         }
         
         // Update
-        window.setTitle( "Framerate: " + std::to_string(1000.0f / deltaClock.getElapsedTime().asMilliseconds()));
-        ImGui::SFML::Update( window, deltaClock.restart() );
+        window.setTitle( "Framerate: " + std::to_string(1000.0f / elapsed.asMilliseconds()));
+        ImGui::SFML::Update( window, elapsed );
         if ( window.hasFocus() )
         {
             enemy.OnUpdate( dt );   // projectile is updated inside ---> Not good
@@ -168,7 +177,7 @@ int main()
         
 
         // render
-        window.clear(sf::Color::Cyan);
+        window.clear( sf::Color::Cyan );
         player.OnRender( window );  // projectile is rendered inside ---> Not good
         enemy.OnRender( window );   // projectile is rendered inside ---> Not good
         
@@ -181,5 +190,5 @@ int main()
     }
 
     // cleanup
-    ImGui::SFML::Shutdown();
+   
 }
