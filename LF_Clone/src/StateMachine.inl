@@ -1,3 +1,4 @@
+#include "StateMachine.h"
 #pragma once
 
 //================================================================================================
@@ -17,6 +18,15 @@ inline void StateMachine<DefaultStateType, StatesEnum>::AddState( StateEnum e_st
     m_states.emplace( e_state, new StateType( std::forward<Args>( args )... ) );
 }
 
+
+template<typename DefaultStateType, typename StatesEnum>
+inline StateMachine<DefaultStateType, StatesEnum>::~StateMachine()
+{
+    for ( auto it = m_states.begin(); it != m_states.end(); ++it )
+    {
+        delete it->second;
+    }
+}
 
 //================================================================================================
 template <typename DefaultStateType, typename StatesEnum>

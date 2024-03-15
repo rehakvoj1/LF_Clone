@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <map>
+#include <unordered_map>
 #include <typeindex>
 #include <string>
 #include <type_traits>
@@ -30,6 +30,8 @@ public:
     template <typename... Args>
     inline StateMachine( StatesEnum e_defaultState, Args&&... args );
 
+    ~StateMachine();
+
     template <typename StateType, typename StateEnum, typename... Args>
     inline void AddState( StateEnum e_state, Args&&... args );
 
@@ -46,8 +48,8 @@ private:
     
     void SwitchState();
 
-    std::map<StatesEnum, State*> m_states;
-    std::map<StatesEnum, StatesEnum> m_transitions;
+    std::unordered_map<StatesEnum, State*> m_states;
+    std::unordered_map<StatesEnum, StatesEnum> m_transitions;
     StatesEnum m_currentState;
 
 };
