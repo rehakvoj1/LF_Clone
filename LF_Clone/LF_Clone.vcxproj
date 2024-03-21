@@ -57,7 +57,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>W:\dev\vendor\imgui-sfml;W:\dev\vendor\imgui;W:\dev\vendor\glm\glm;W:\dev\vendor\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -75,7 +75,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>W:\dev\vendor\imgui-sfml;W:\dev\vendor\imgui;W:\dev\vendor\glm\glm;W:\dev\vendor\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -95,6 +95,8 @@
     <ClCompile Include="..\..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\C_WindowsWindowsManager.cpp" />
+    <ClCompile Include="src\I_WindowsManager.cpp" />
     <ClCompile Include="src\GameStates.cpp" />
     <ClCompile Include="src\C_LfCloneGame.cpp" />
     <ClCompile Include="src\I_Game.cpp" />
@@ -104,8 +106,12 @@
     <ClCompile Include="src\gameplay\Player.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\StateMachine.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\C_WindowsWindowsManager.h" />
+    <ClInclude Include="src\I_WindowsManager.h" />
     <ClInclude Include="src\GameStates.h" />
     <ClInclude Include="src\C_LfCloneGame.h" />
     <ClInclude Include="src\I_Game.h" />
@@ -116,6 +122,8 @@
     <ClInclude Include="src\gameplay\Types.h" />
     <ClInclude Include="src\StateMachine.h" />
     <ClInclude Include="src\StateMachine.inl" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\WindowsWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

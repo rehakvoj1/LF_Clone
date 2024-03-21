@@ -15,7 +15,8 @@
 #include "gameplay/Player.h"
 #include "gameplay/Enemy.h"
 #include "C_Engine.h"
-
+#include "I_WindowsManager.h"
+#include "Window.h"
 
 //=======================================================================================================
 void CheckCollisions( Projectile& source, 
@@ -144,30 +145,30 @@ int main(int argc, char** argv)
     enemy.SetProjectile( SpriteOrientation::Default, spriteFireball, 800.f, 1.f, 1.f );
 
 
-    sf::RenderWindow& window = C_Engine::GetWindow();
+    sf::RenderWindow* window = (sf::RenderWindow*)C_Engine::GetWindowsManager()->GetActiveWindow()->GetNativeWindow();
     // game loop
     sf::Clock deltaClock;
-    while ( window.isOpen() )
+    while ( window->isOpen() )
     {
         sf::Time elapsed = deltaClock.restart();
         float dt = elapsed.asSeconds();
         // event polling
         sf::Event event;
-        while ( window.pollEvent( event ) )
+        while ( window->pollEvent( event ) )
         {
-            ImGui::SFML::ProcessEvent( window, event );
+            ImGui::SFML::ProcessEvent( *window, event );
 
             if ( event.type == sf::Event::Closed ||
                  sf::Keyboard::isKeyPressed(sf::Keyboard::Escape ) )
             {
-                window.close();
+                window->close();
             }
         }
         
         // Update
-        window.setTitle( "Framerate: " + std::to_string(1000.0f / elapsed.asMilliseconds()));
-        ImGui::SFML::Update( window, elapsed );
-        if ( window.hasFocus() )
+        window->setTitle( "Framerate: " + std::to_string(1000.0f / elapsed.asMilliseconds()));
+        ImGui::SFML::Update( *window, elapsed );
+        if ( window->hasFocus() )
         {
             enemy.OnUpdate( dt );   // projectile is updated inside ---> Not good
             CheckCollisions( enemy.GetProjectile(), player);
@@ -177,16 +178,16 @@ int main(int argc, char** argv)
         
 
         // render
-        window.clear( sf::Color::Cyan );
-        player.OnRender( window );  // projectile is rendered inside ---> Not good
-        enemy.OnRender( window );   // projectile is rendered inside ---> Not good
+        window->clear( sf::Color::Cyan );
+        player.OnRender( *window );  // projectile is rendered inside ---> Not good
+        enemy.OnRender( *window );   // projectile is rendered inside ---> Not good
         
         ImGui::Begin( "healthbar",0,ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs );
         ImGui::DrawRectFilled( sf::FloatRect( { 80,0 }, { 100,20 } ), sf::Color::Black );
         ImGui::DrawRectFilled( sf::FloatRect( { 80,0 }, { player.GetHealth(),20}), sf::Color::Red);
         ImGui::End();
-        ImGui::SFML::Render( window );  // -----> renders ImGui elements
-        window.display();   // -----------------> display rendered elements to window 
+        ImGui::SFML::Render( *window );  // -----> renders ImGui elements
+        window->display();   // -----------------> display rendered elements to window 
     }
 
     // cleanup

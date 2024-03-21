@@ -6,22 +6,24 @@
 #include <SFML/Graphics.hpp>
 
 
+
 // Constants
-const int DEFAULT_WINDOW_WIDTH = 1280;
-const int DEFAULT_WINDOW_HEIGHT = 960;
+const unsigned int DEFAULT_WINDOW_WIDTH = 1280;
+const unsigned int DEFAULT_WINDOW_HEIGHT = 960;
 const std::string DEFAULT_WINDOW_NAME = "LF_CLONE";
 
 
 // params for engine initialization
 struct EngineInitParams
 {
-	int windowWidth = DEFAULT_WINDOW_WIDTH;
-	int windowHeight = DEFAULT_WINDOW_HEIGHT;
+	unsigned int windowWidth = DEFAULT_WINDOW_WIDTH;
+	unsigned int windowHeight = DEFAULT_WINDOW_HEIGHT;
 	std::string windowName = DEFAULT_WINDOW_NAME;
 };
 
 
 class I_Game;
+class I_WindowsManager;
 
 
 class C_Engine
@@ -31,8 +33,8 @@ public:
 	~C_Engine();
 
 	
-	static sf::RenderWindow& GetWindow();
-	static float GetDeltaTime();
+	static I_WindowsManager*	GetWindowsManager();
+	static float				GetDeltaTime();
 	
 	
 	bool Init( EngineInitParams params );
@@ -46,8 +48,10 @@ private:
 	void Render();
 
 
-	static sf::RenderWindow m_window;
+	
 	I_Game* m_gameInstance;
+	static I_WindowsManager* m_windowsManager;
+
 	sf::Clock m_updateClock;
 	static float m_deltaTime;
 };

@@ -1,5 +1,6 @@
 #include "C_Engine.h"
 #include "I_Game.h"
+#include "C_WindowsWindowsManager.h"
 
 #include "imgui-SFML.h"
 
@@ -7,7 +8,7 @@
 
 
 //==================================== STATIC VARIABLES =============================================
-sf::RenderWindow C_Engine::m_window;
+I_WindowsManager* C_Engine::m_windowsManager = nullptr;
 float C_Engine::m_deltaTime = 0.0f;
 
 
@@ -25,9 +26,9 @@ C_Engine::~C_Engine()
 }
 
 //===================================================================================================
-sf::RenderWindow& C_Engine::GetWindow()
+I_WindowsManager* C_Engine::GetWindowsManager()
 {
-    return m_window;
+    return m_windowsManager;
 }
 
 float C_Engine::GetDeltaTime()
@@ -38,18 +39,19 @@ float C_Engine::GetDeltaTime()
 //===================================================================================================
 bool C_Engine::Init( EngineInitParams params )
 {
-    m_window.create( sf::VideoMode( params.windowWidth, params.windowHeight ), params.windowName );
-    if ( !m_window.isOpen() )
+    m_windowsManager = I_WindowsManager::Create();
+    if ( !m_windowsManager )
     {
-        std::cout << "Failed to create a window." << std::endl;
         return false;
     }
 
-    if ( !ImGui::SFML::Init( m_window ) )
+    auto [window, initSuccessful] = m_windowsManager->AddWindow( params.windowWidth, params.windowHeight, params.windowName );
+    if ( !initSuccessful )
     {
-        std::cout << "Failed to initialize ImGui::SFML." << std::endl;
         return false;
     }
+
+    m_windowsManager->SetActiveWindow( params.windowName );  
 
     return true;
 }
@@ -66,7 +68,7 @@ void C_Engine::Run()
     m_gameInstance->OnStart();
 
 
-    while ( m_window.isOpen() )
+    while ( m_windowsManager->GetActiveWindow()->IsWindowOpen())
     {
         m_deltaTime = m_updateClock.restart().asSeconds();
         Update();
