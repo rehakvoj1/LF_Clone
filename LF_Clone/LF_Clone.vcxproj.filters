@@ -69,6 +69,15 @@
     <ClCompile Include="src\WindowsWindow.cpp">
       <Filter>Zdrojové soubory</Filter>
     </ClCompile>
+    <ClCompile Include="src\I_Listener.cpp">
+      <Filter>Zdrojové soubory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\I_Publisher.cpp">
+      <Filter>Zdrojové soubory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Event.cpp">
+      <Filter>Zdrojové soubory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\gameplay\Player.h">
@@ -113,5 +122,25 @@
     <ClInclude Include="src\WindowsWindow.h">
       <Filter>Hlavičkové soubory</Filter>
     </ClInclude>
+    <ClInclude Include="src\I_Listener.h">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\I_Publisher.h">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event.h">
+      <Filter>Hlavičkové soubory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\I_Listener.inl">
+      <Filter>Hlavičkové soubory</Filter>
+    </None>
+    <None Include="src\Event.inl">
+      <Filter>Hlavičkové soubory</Filter>
+    </None>
+    <None Include="src\I_Publisher.inl">
+      <Filter>Hlavičkové soubory</Filter>
+    </None>
   </ItemGroup>
 </Project>

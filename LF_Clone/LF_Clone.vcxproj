@@ -95,6 +95,9 @@
     <ClCompile Include="..\..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Event.cpp" />
+    <ClCompile Include="src\I_Publisher.cpp" />
+    <ClCompile Include="src\I_Listener.cpp" />
     <ClCompile Include="src\C_WindowsWindowsManager.cpp" />
     <ClCompile Include="src\I_WindowsManager.cpp" />
     <ClCompile Include="src\GameStates.cpp" />
@@ -110,6 +113,9 @@
     <ClCompile Include="src\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Event.h" />
+    <ClInclude Include="src\I_Publisher.h" />
+    <ClInclude Include="src\I_Listener.h" />
     <ClInclude Include="src\C_WindowsWindowsManager.h" />
     <ClInclude Include="src\I_WindowsManager.h" />
     <ClInclude Include="src\GameStates.h" />
@@ -124,6 +130,11 @@
     <ClInclude Include="src\StateMachine.inl" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WindowsWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Event.inl" />
+    <None Include="src\I_Listener.inl" />
+    <None Include="src\I_Publisher.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
