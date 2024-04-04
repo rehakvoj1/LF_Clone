@@ -19,6 +19,7 @@ inline void StateMachine<DefaultStateType, StatesEnum>::AddState( StateEnum e_st
 }
 
 
+//===================================================================================================
 template<typename DefaultStateType, typename StatesEnum>
 inline StateMachine<DefaultStateType, StatesEnum>::~StateMachine()
 {

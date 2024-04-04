@@ -2,11 +2,15 @@
 
 #include <iostream>
 
+
+//===================================================================================================
 TextureManager* TextureManager::Create()
 {
 	return new TextureManager;
 }
 
+
+//===================================================================================================
 sf::Texture& TextureManager::GetTexture( std::string filepath )
 {
 	auto it = m_textures.find( filepath );

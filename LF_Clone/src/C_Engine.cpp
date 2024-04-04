@@ -38,21 +38,25 @@ I_WindowsManager* C_Engine::GetWindowsManager()
     return m_windowsManager;
 }
 
+//===================================================================================================
 I_SystemEventHandler* C_Engine::GetSystemEventHandler()
 {
     return m_sysEventHandler;
 }
 
+//===================================================================================================
 TextureManager* C_Engine::GetTextureManager()
 {
     return m_textureManager;
 }
 
+//===================================================================================================
 ActorFactory* C_Engine::GetActorFactory()
 {
     return m_actorFactory;
 }
 
+//===================================================================================================
 float C_Engine::GetDeltaTime()
 {
     return m_deltaTime;

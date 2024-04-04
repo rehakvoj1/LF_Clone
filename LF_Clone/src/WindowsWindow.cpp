@@ -79,16 +79,19 @@ bool WindowsWindow::IsWindowOpen()
 	return m_window.isOpen();
 }
 
+//===================================================================================================
 void WindowsWindow::Close()
 {
 	m_window.close();
 }
 
+//===================================================================================================
 void WindowsWindow::Display()
 {
 	m_window.display();
 }
 
+//===================================================================================================
 void WindowsWindow::ClearColor( uint8_t r, uint8_t g, uint8_t b )
 {
 	m_window.clear( { r,g,b } );

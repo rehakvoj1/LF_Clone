@@ -72,6 +72,7 @@ void C_LfCloneGame::OnKeyPressed( KeyPressedEvent& e )
 	}
 }
 
+//===================================================================================================
 void C_LfCloneGame::OnWindowClosed( WindowClosedEvent& e )
 {
 	C_Engine::GetWindowsManager()->GetActiveWindow()->Close();
