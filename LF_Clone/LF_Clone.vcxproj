@@ -117,6 +117,7 @@
     <ClCompile Include="src\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\ActorFactory.h" />
     <ClInclude Include="src\Enemy.h" />
