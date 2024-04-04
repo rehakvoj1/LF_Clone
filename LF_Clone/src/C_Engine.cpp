@@ -3,6 +3,7 @@
 #include "C_WindowsWindowsManager.h"
 #include "I_SystemEventHandler.h"
 #include "TextureManager.h"
+#include "ActorFactory.h"
 
 #include "imgui-SFML.h"
 
@@ -13,6 +14,7 @@
 I_SystemEventHandler* C_Engine::m_sysEventHandler = nullptr;
 I_WindowsManager* C_Engine::m_windowsManager = nullptr;
 TextureManager* C_Engine::m_textureManager = nullptr;
+ActorFactory* C_Engine::m_actorFactory = nullptr;
 
 float C_Engine::m_deltaTime = 0.0f;
 
@@ -46,6 +48,11 @@ TextureManager* C_Engine::GetTextureManager()
     return m_textureManager;
 }
 
+ActorFactory* C_Engine::GetActorFactory()
+{
+    return m_actorFactory;
+}
+
 float C_Engine::GetDeltaTime()
 {
     return m_deltaTime;
@@ -68,6 +75,12 @@ bool C_Engine::Init( EngineInitParams params )
 
     m_textureManager = TextureManager::Create();
     if ( !m_textureManager )
+    {
+        return false;
+    }
+
+    m_actorFactory = ActorFactory::CreateFactoryInstance();
+    if ( !m_actorFactory )
     {
         return false;
     }
@@ -124,5 +137,6 @@ void C_Engine::Update()
 void C_Engine::Render()
 {
     Window* wnd = GetWindowsManager()->GetActiveWindow();
-    
+    wnd->ClearColor( 30, 30, 30 );
+    wnd->Display();
 }

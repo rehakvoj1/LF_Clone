@@ -11,12 +11,8 @@ public:
 	{
 	}
 
-	virtual void OnUpdate()
-	{
-	}
-	virtual void OnRender()
-	{
-	}
-
+	virtual void OnUpdate(float dt) = 0;
+	virtual void OnRender() = 0;
+	
 protected:
 };

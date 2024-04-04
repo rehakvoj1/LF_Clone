@@ -26,6 +26,7 @@ class I_Game;
 class I_WindowsManager;
 class I_SystemEventHandler;
 class TextureManager;
+class ActorFactory;
 
 
 class C_Engine
@@ -38,6 +39,7 @@ public:
 	static I_WindowsManager*		GetWindowsManager();
 	static I_SystemEventHandler*	GetSystemEventHandler();
 	static TextureManager*			GetTextureManager();
+	static ActorFactory*			GetActorFactory();
 	static float					GetDeltaTime();
 	
 	
@@ -57,6 +59,7 @@ private:
 	static I_WindowsManager* m_windowsManager;
 	static I_SystemEventHandler* m_sysEventHandler;
 	static TextureManager* m_textureManager;
+	static ActorFactory* m_actorFactory;
 
 	sf::Clock m_updateClock;
 	static float m_deltaTime;

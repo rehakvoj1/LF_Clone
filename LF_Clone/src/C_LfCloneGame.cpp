@@ -5,6 +5,10 @@
 #include "I_SystemEventHandler.h"
 #include "TextureManager.h"
 #include "GameResources.h"
+#include "ActorFactory.h"
+#include "Player.h"
+#include "Enemy.h"
+#include "Projectile.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -32,6 +36,11 @@ void C_LfCloneGame::OnStart()
 	C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::FROSTBOLT_MIRROR ) );
 	C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::SORCERER ) );
 	C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::SORCERER_MIRROR ) );
+
+	C_Engine::GetActorFactory()->RegisterObject( "player", Player::Create );
+	C_Engine::GetActorFactory()->RegisterObject( "enemy", Enemy::Create );
+	C_Engine::GetActorFactory()->RegisterObject( "projectile", Projectile::Create );
+
 }
 
 //===================================================================================================

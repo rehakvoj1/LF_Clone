@@ -19,6 +19,7 @@ public:
 	virtual bool									IsWindowOpen() override;
 	virtual void									Close() override;
 	virtual void									Display() override;
+	virtual void									ClearColor( uint8_t r, uint8_t g, uint8_t b ) override;
 
 	virtual void									SetWidth( unsigned int width ) override;
 	virtual void									SetHeight( unsigned int Height ) override;
