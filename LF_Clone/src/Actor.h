@@ -3,8 +3,12 @@
 #include <string>
 
 #include "GameObject.h"
+#include "I_Listener.h"
+#include "I_Publisher.h"
 
-class Actor : public GameObject
+class Actor :	public GameObject,
+				public I_Listener,
+				public I_Publisher
 {
 public:
 	Actor( std::string id ) : GameObject( id )
