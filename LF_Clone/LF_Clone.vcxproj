@@ -95,10 +95,12 @@
     <ClCompile Include="..\..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\C_SFMLSystemEventHandler.cpp" />
     <ClCompile Include="src\Event.cpp" />
     <ClCompile Include="src\I_Publisher.cpp" />
     <ClCompile Include="src\I_Listener.cpp" />
     <ClCompile Include="src\C_WindowsWindowsManager.cpp" />
+    <ClCompile Include="src\I_SystemEventHandler.cpp" />
     <ClCompile Include="src\I_WindowsManager.cpp" />
     <ClCompile Include="src\GameStates.cpp" />
     <ClCompile Include="src\C_LfCloneGame.cpp" />
@@ -111,12 +113,18 @@
     <ClCompile Include="src\StateMachine.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\WindowsWindow.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Actor.h" />
+    <ClInclude Include="src\C_SFMLSystemEventHandler.h" />
     <ClInclude Include="src\Event.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\GameResources.h" />
     <ClInclude Include="src\I_Publisher.h" />
     <ClInclude Include="src\I_Listener.h" />
     <ClInclude Include="src\C_WindowsWindowsManager.h" />
+    <ClInclude Include="src\I_SystemEventHandler.h" />
     <ClInclude Include="src\I_WindowsManager.h" />
     <ClInclude Include="src\GameStates.h" />
     <ClInclude Include="src\C_LfCloneGame.h" />
@@ -130,6 +138,7 @@
     <ClInclude Include="src\StateMachine.inl" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WindowsWindow.h" />
+    <ClInclude Include="src\TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Event.inl" />

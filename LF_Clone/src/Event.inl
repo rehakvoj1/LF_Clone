@@ -1,14 +1,18 @@
 #include "Event.h"
 
 #pragma once
+// =================================================================================
 template <class EventType, class SubscriberType>
-EventCallback<EventType, SubscriberType>::EventCallback( SubscriberType& sub, void ( SubscriberType::* fn )( EventType ) ) : m_callback( fn )
+EventCallback<EventType, SubscriberType>::EventCallback( void ( SubscriberType::* fn )( EventType ) ) : m_callback( fn )
 {
 }
 
+
+// =================================================================================
 template <typename EventType, typename SubscriberType>
 void EventCallback<EventType, SubscriberType>::call( Event& e, I_Listener* listener )
 {
     EventType& castedEvent = static_cast<EventType&>( e );
-    ( listener.*m_callback )( castedEvent );
+    SubscriberType* castedListener = static_cast<SubscriberType*>( listener );
+    ( castedListener->*m_callback )( castedEvent );
 }

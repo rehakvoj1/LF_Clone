@@ -1,5 +1,8 @@
 #pragma once
-class I_Game
+
+#include "I_Listener.h"
+
+class I_Game : public I_Listener
 {
 public:
 	virtual void OnStart() = 0;

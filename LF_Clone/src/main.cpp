@@ -82,11 +82,11 @@ int main(int argc, char** argv)
     {
         return -1;
     }
-    //engine.Run();
+    engine.Run();
 
     
 
-    // init resource
+    // init resource ========== DONE
     sf::Texture sorcererTex;
     if ( !sorcererTex.loadFromFile( "./resource/sorcerer_0b.png" ) )
     {
@@ -117,7 +117,7 @@ int main(int argc, char** argv)
     {
         std::cout << "Failed to load firen_ball texture." << std::endl;
     }
-    
+    //-----------------------DONE--------------------------------------------
 
 
 
@@ -146,24 +146,26 @@ int main(int argc, char** argv)
 
 
     sf::RenderWindow* window = (sf::RenderWindow*)C_Engine::GetWindowsManager()->GetActiveWindow()->GetNativeWindow();
+    float dt = 0;
+    sf::Time elapsed;
     // game loop
-    sf::Clock deltaClock;
-    while ( window->isOpen() )
-    {
-        sf::Time elapsed = deltaClock.restart();
-        float dt = elapsed.asSeconds();
-        // event polling
-        sf::Event event;
-        while ( window->pollEvent( event ) )
-        {
-            ImGui::SFML::ProcessEvent( *window, event );
-
-            if ( event.type == sf::Event::Closed ||
-                 sf::Keyboard::isKeyPressed(sf::Keyboard::Escape ) )
-            {
-                window->close();
-            }
-        }
+//    sf::Clock deltaClock;
+//    while ( window->isOpen() )
+//    {
+//        sf::Time elapsed = deltaClock.restart();
+//        float dt = elapsed.asSeconds();
+//        // event polling
+//        sf::Event event;
+//        while ( window->pollEvent( event ) )
+//        {
+//            ImGui::SFML::ProcessEvent( *window, event );
+//
+//            if ( event.type == sf::Event::Closed ||
+//                 sf::Keyboard::isKeyPressed(sf::Keyboard::Escape ) )
+//            {
+//                window->close();
+//            }
+//        }
         
         // Update
         window->setTitle( "Framerate: " + std::to_string(1000.0f / elapsed.asMilliseconds()));
@@ -188,8 +190,6 @@ int main(int argc, char** argv)
         ImGui::End();
         ImGui::SFML::Render( *window );  // -----> renders ImGui elements
         window->display();   // -----------------> display rendered elements to window 
-    }
+}
 
     // cleanup
-   
-}

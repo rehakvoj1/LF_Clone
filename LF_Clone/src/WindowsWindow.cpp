@@ -78,3 +78,13 @@ bool WindowsWindow::IsWindowOpen()
 {
 	return m_window.isOpen();
 }
+
+void WindowsWindow::Close()
+{
+	m_window.close();
+}
+
+void WindowsWindow::Display()
+{
+	m_window.display();
+}

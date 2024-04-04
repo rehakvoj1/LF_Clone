@@ -2,8 +2,11 @@
 #pragma once
 #include "I_Publisher.h"
 
+
+
+// =================================================================================
 template<typename EventType, typename SubscriberType>
-inline void I_Listener::Observe( I_Publisher* pub, void( SubscriberType::* fn )( EventType ) )
+inline void I_Listener::Observe( I_Publisher* pub, void( SubscriberType::* fn )( EventType& ) )
 {
 	pub->RegisterListener<EventType>( this, fn );
 }

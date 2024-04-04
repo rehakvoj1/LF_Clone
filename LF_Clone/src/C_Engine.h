@@ -24,6 +24,8 @@ struct EngineInitParams
 
 class I_Game;
 class I_WindowsManager;
+class I_SystemEventHandler;
+class TextureManager;
 
 
 class C_Engine
@@ -33,8 +35,10 @@ public:
 	~C_Engine();
 
 	
-	static I_WindowsManager*	GetWindowsManager();
-	static float				GetDeltaTime();
+	static I_WindowsManager*		GetWindowsManager();
+	static I_SystemEventHandler*	GetSystemEventHandler();
+	static TextureManager*			GetTextureManager();
+	static float					GetDeltaTime();
 	
 	
 	bool Init( EngineInitParams params );
@@ -51,6 +55,8 @@ private:
 	
 	I_Game* m_gameInstance;
 	static I_WindowsManager* m_windowsManager;
+	static I_SystemEventHandler* m_sysEventHandler;
+	static TextureManager* m_textureManager;
 
 	sf::Clock m_updateClock;
 	static float m_deltaTime;

@@ -17,6 +17,8 @@ public:
 	virtual std::pair<unsigned int, unsigned int>	GetWindowSize() override;
 	virtual void*									GetNativeWindow() const override;
 	virtual bool									IsWindowOpen() override;
+	virtual void									Close() override;
+	virtual void									Display() override;
 
 	virtual void									SetWidth( unsigned int width ) override;
 	virtual void									SetHeight( unsigned int Height ) override;
