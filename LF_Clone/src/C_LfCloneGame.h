@@ -21,9 +21,7 @@ public:
 
 	C_LfCloneGame();
 	virtual void OnStart() override;
-	virtual void OnBeforeUpdate( float dt ) override;
 	virtual void OnUpdate( float dt ) override;
-	virtual void OnPostUpdate( float dt ) override;
 	
 	void OnKeyPressed( KeyPressedEvent& e );
 	void OnWindowClosed( WindowClosedEvent& e );

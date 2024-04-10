@@ -113,7 +113,9 @@ void C_Engine::Run()
     {
         m_deltaTime = m_updateClock.restart().asSeconds();
         m_sysEventHandler->PollEvents();
+        PreUpdate();
         Update();
+        PostUpdate();
         Render();
     }
 }
@@ -126,14 +128,26 @@ bool C_Engine::CreateGameInstance()
     return m_gameInstance;
 }
 
+
+//===================================================================================================
+void C_Engine::PreUpdate()
+{
+}
+
 //===================================================================================================
 void C_Engine::Update()
 {
-    m_gameInstance->OnBeforeUpdate( m_deltaTime );
+
     m_collisionSystem->OnUpdate();
     m_gameInstance->OnUpdate( m_deltaTime );
     m_entityManager->UpdateEntities( m_deltaTime );
-    m_gameInstance->OnPostUpdate( m_deltaTime );
+
+}
+
+
+//===================================================================================================
+void C_Engine::PostUpdate()
+{
 }
 
 //===================================================================================================

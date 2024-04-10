@@ -54,7 +54,9 @@ public:
 
 private:
 
+	void PreUpdate();
 	void Update();
+	void PostUpdate();
 	void Render();
 	bool InitStaticVariables();
 
