@@ -37,17 +37,11 @@ int main(int argc, char** argv)
     //sf::Sprite spriteSorcerer( sorcererTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
     //sf::Sprite spriteSorcererMirror( sorcererTexMirror, sf::IntRect( { 720,0 }, { 80,80 } ) );
     
-    //// player's projectile
-    //sf::Sprite spriteFrostbolt( frostboltTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
-    //sf::Sprite spriteFrostboltMirror( frostboltTexMirror, sf::IntRect( { 247,0 }, { 80,80 } ) );
     
     
     //// enemy
     //sf::Sprite spriteEnemy( enemyTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
  
-    //// enemy's projectile
-    //sf::Sprite spriteFireball( fireballTex, sf::IntRect( { 0,0 }, { 80,80 } ) );
-
 
 
         // render

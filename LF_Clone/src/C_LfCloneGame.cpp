@@ -8,7 +8,8 @@
 #include "ActorFactory.h"
 #include "Player.h"
 #include "Enemy.h"
-#include "Projectile.h"
+#include "FrostboltProjectile.h"
+#include "FireballProjectile.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -39,7 +40,9 @@ void C_LfCloneGame::OnStart()
 
 	C_Engine::GetActorFactory()->RegisterObject( "player", Player::Create );
 	C_Engine::GetActorFactory()->RegisterObject( "enemy", Enemy::Create );
-	C_Engine::GetActorFactory()->RegisterObject( "projectile", Projectile::Create );
+	C_Engine::GetActorFactory()->RegisterObject( "frostboltLeft", FrostboltProjectile::CreateLeft );
+	C_Engine::GetActorFactory()->RegisterObject( "frostboltRight", FrostboltProjectile::CreateRight );
+	C_Engine::GetActorFactory()->RegisterObject( "fireballRight", FireballProjectile::CreateRight );
 
 }
 

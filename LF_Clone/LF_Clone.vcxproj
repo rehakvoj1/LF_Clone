@@ -95,6 +95,9 @@
     <ClCompile Include="..\..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\FireballProjectile.cpp" />
+    <ClCompile Include="src\FrostboltProjectile.cpp" />
+    <ClCompile Include="src\EntityManager.cpp" />
     <ClCompile Include="src\Actor.cpp" />
     <ClCompile Include="src\CollisionSystem.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
@@ -120,6 +123,9 @@
     <ClCompile Include="src\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\FireballProjectile.h" />
+    <ClInclude Include="src\FrostboltProjectile.h" />
+    <ClInclude Include="src\EntityManager.h" />
     <ClInclude Include="src\CollisionSystem.h" />
     <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\Projectile.h" />

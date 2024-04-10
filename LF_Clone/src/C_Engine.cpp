@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 #include "ActorFactory.h"
 #include "CollisionSystem.h"
+#include "EntityManager.h"
 
 #include "imgui-SFML.h"
 
@@ -17,6 +18,7 @@ I_WindowsManager* C_Engine::m_windowsManager = nullptr;
 TextureManager* C_Engine::m_textureManager = nullptr;
 ActorFactory* C_Engine::m_actorFactory = nullptr;
 CollisionSystem* C_Engine::m_collisionSystem = nullptr;
+EntityManager* C_Engine::m_entityManager = nullptr;
 
 float C_Engine::m_deltaTime = 0.0f;
 
@@ -64,6 +66,11 @@ CollisionSystem* C_Engine::GetCollisionSystem()
     return m_collisionSystem;
 }
 
+EntityManager* C_Engine::GetEntityManager()
+{
+    return m_entityManager;
+}
+
 //===================================================================================================
 float C_Engine::GetDeltaTime()
 {
@@ -73,32 +80,8 @@ float C_Engine::GetDeltaTime()
 //===================================================================================================
 bool C_Engine::Init( EngineInitParams params )
 {
-    m_windowsManager = I_WindowsManager::Create();
-    if ( !m_windowsManager )
-    {
-        return false;
-    }
-
-    m_sysEventHandler = I_SystemEventHandler::Create();
-    if ( !m_sysEventHandler )
-    {
-        return false;
-    }
-
-    m_textureManager = TextureManager::Create();
-    if ( !m_textureManager )
-    {
-        return false;
-    }
-
-    m_actorFactory = ActorFactory::CreateFactoryInstance();
-    if ( !m_actorFactory )
-    {
-        return false;
-    }
-
-    m_collisionSystem = CollisionSystem::Create();
-    if ( !m_collisionSystem )
+   
+    if ( !InitStaticVariables() )
     {
         return false;
     }
@@ -146,9 +129,10 @@ bool C_Engine::CreateGameInstance()
 //===================================================================================================
 void C_Engine::Update()
 {
-    m_collisionSystem->OnUpdate();
     m_gameInstance->OnBeforeUpdate( m_deltaTime );
+    m_collisionSystem->OnUpdate();
     m_gameInstance->OnUpdate( m_deltaTime );
+    m_entityManager->UpdateEntities( m_deltaTime );
     m_gameInstance->OnPostUpdate( m_deltaTime );
 }
 
@@ -158,4 +142,47 @@ void C_Engine::Render()
     Window* wnd = GetWindowsManager()->GetActiveWindow();
     wnd->ClearColor( 30, 30, 30 );
     wnd->Display();
+}
+
+
+//===================================================================================================
+bool C_Engine::InitStaticVariables()
+{
+    m_windowsManager = I_WindowsManager::Create();
+    if ( !m_windowsManager )
+    {
+        return false;
+    }
+
+    m_sysEventHandler = I_SystemEventHandler::Create();
+    if ( !m_sysEventHandler )
+    {
+        return false;
+    }
+
+    m_textureManager = TextureManager::Create();
+    if ( !m_textureManager )
+    {
+        return false;
+    }
+
+    m_actorFactory = ActorFactory::CreateFactoryInstance();
+    if ( !m_actorFactory )
+    {
+        return false;
+    }
+
+    m_collisionSystem = CollisionSystem::Create();
+    if ( !m_collisionSystem )
+    {
+        return false;
+    }
+
+    m_entityManager = EntityManager::Create();
+    if ( !m_entityManager )
+    {
+        return false;
+    }
+
+    return true;
 }

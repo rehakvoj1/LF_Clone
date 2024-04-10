@@ -28,6 +28,7 @@ class I_SystemEventHandler;
 class TextureManager;
 class ActorFactory;
 class CollisionSystem;
+class EntityManager;
 
 
 class C_Engine
@@ -42,6 +43,7 @@ public:
 	static TextureManager*			GetTextureManager();
 	static ActorFactory*			GetActorFactory();
 	static CollisionSystem*			GetCollisionSystem();
+	static EntityManager*			GetEntityManager();
 	static float					GetDeltaTime();
 	
 	
@@ -54,6 +56,7 @@ private:
 
 	void Update();
 	void Render();
+	bool InitStaticVariables();
 
 
 	
@@ -63,6 +66,7 @@ private:
 	static TextureManager* m_textureManager;
 	static ActorFactory* m_actorFactory;
 	static CollisionSystem* m_collisionSystem;
+	static EntityManager* m_entityManager;
 
 	sf::Clock m_updateClock;
 	static float m_deltaTime;
