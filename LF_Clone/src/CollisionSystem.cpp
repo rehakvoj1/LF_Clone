@@ -1,21 +1,29 @@
 #include "CollisionSystem.h"
 #include "Event.h"
 
+
+//===================================================================================================
 CollisionSystem* CollisionSystem::Create()
 {
     return new CollisionSystem;
 }
 
+
+//===================================================================================================
 void CollisionSystem::RegisterCollider( GameObject* collider, CollisionFilter collidingObjects )
 {
     m_colliders.insert_or_assign( collider, collidingObjects );
 }
 
+
+//===================================================================================================
 void CollisionSystem::UnregisterCollider( GameObject* collider )
 {
     m_colliders.erase( collider );
 }
 
+
+//===================================================================================================
 void CollisionSystem::OnUpdate()
 {
     for ( auto& src : m_colliders )

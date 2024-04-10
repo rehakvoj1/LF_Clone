@@ -21,7 +21,7 @@ struct EngineInitParams
 	std::string windowName = DEFAULT_WINDOW_NAME;
 };
 
-
+// forward declaration
 class I_Game;
 class I_WindowsManager;
 class I_SystemEventHandler;

@@ -3,13 +3,15 @@
 #include "TextureManager.h"
 #include "GameResources.h"
 
+
+//===================================================================================================
 FrostboltProjectile::FrostboltProjectile( std::string id, float speed, ProjectileDirection dir, sf::Sprite sprite ) :
 	Projectile( id, speed, dir, sprite )
 {
 }
 
 
-
+//===================================================================================================
 Actor* FrostboltProjectile::CreateLeft( std::string id )
 {
 	
@@ -22,6 +24,8 @@ Actor* FrostboltProjectile::CreateLeft( std::string id )
 									);
 }
 
+
+//===================================================================================================
 Actor* FrostboltProjectile::CreateRight( std::string id )
 {
 	sf::Texture& frostboltRight = C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::FROSTBOLT ) );

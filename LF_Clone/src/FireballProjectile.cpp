@@ -3,6 +3,8 @@
 #include "TextureManager.h"
 #include "GameResources.h"
 
+
+//===================================================================================================
 FireballProjectile::FireballProjectile( std::string id, float speed, ProjectileDirection dir, sf::Sprite sprite ) :
 	Projectile( id, speed, dir, sprite )
 {
@@ -10,6 +12,7 @@ FireballProjectile::FireballProjectile( std::string id, float speed, ProjectileD
 
 
 
+//===================================================================================================
 Actor* FireballProjectile::CreateLeft( std::string id )
 {
 
@@ -22,6 +25,8 @@ Actor* FireballProjectile::CreateLeft( std::string id )
 	);
 }
 
+
+//===================================================================================================
 Actor* FireballProjectile::CreateRight( std::string id )
 {
 	sf::Texture& fireballRight = C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::FIREBALL ) );
