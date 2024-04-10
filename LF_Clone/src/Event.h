@@ -88,8 +88,17 @@ private:
 
 
 
+class GameObject;
+// =================================================================================
+class OverlapEvent : public Event
+{
+public:
+    explicit OverlapEvent( GameObject& tar );
+    GameObject& GetTarget();
 
-
+private:
+    GameObject& m_target;
+};
 
 
 

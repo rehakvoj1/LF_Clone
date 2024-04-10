@@ -18,5 +18,8 @@ public:
 	virtual void OnUpdate(float dt) = 0;
 	virtual void OnRender() = 0;
 	
+	virtual AABB2D* GetAABB2D() override;
+
 protected:
+	AABB2D m_bbox;
 };

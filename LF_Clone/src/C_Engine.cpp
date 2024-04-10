@@ -4,6 +4,7 @@
 #include "I_SystemEventHandler.h"
 #include "TextureManager.h"
 #include "ActorFactory.h"
+#include "CollisionSystem.h"
 
 #include "imgui-SFML.h"
 
@@ -15,6 +16,7 @@ I_SystemEventHandler* C_Engine::m_sysEventHandler = nullptr;
 I_WindowsManager* C_Engine::m_windowsManager = nullptr;
 TextureManager* C_Engine::m_textureManager = nullptr;
 ActorFactory* C_Engine::m_actorFactory = nullptr;
+CollisionSystem* C_Engine::m_collisionSystem = nullptr;
 
 float C_Engine::m_deltaTime = 0.0f;
 
@@ -57,6 +59,12 @@ ActorFactory* C_Engine::GetActorFactory()
 }
 
 //===================================================================================================
+CollisionSystem* C_Engine::GetCollisionSystem()
+{
+    return m_collisionSystem;
+}
+
+//===================================================================================================
 float C_Engine::GetDeltaTime()
 {
     return m_deltaTime;
@@ -85,6 +93,12 @@ bool C_Engine::Init( EngineInitParams params )
 
     m_actorFactory = ActorFactory::CreateFactoryInstance();
     if ( !m_actorFactory )
+    {
+        return false;
+    }
+
+    m_collisionSystem = CollisionSystem::Create();
+    if ( !m_collisionSystem )
     {
         return false;
     }
@@ -132,6 +146,7 @@ bool C_Engine::CreateGameInstance()
 //===================================================================================================
 void C_Engine::Update()
 {
+    m_collisionSystem->OnUpdate();
     m_gameInstance->OnBeforeUpdate( m_deltaTime );
     m_gameInstance->OnUpdate( m_deltaTime );
     m_gameInstance->OnPostUpdate( m_deltaTime );

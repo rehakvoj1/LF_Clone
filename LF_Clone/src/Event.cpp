@@ -1,4 +1,5 @@
 #include "Event.h"
+#include "GameObject.h"
 
 // =================================================================================
 Event::~Event()
@@ -46,4 +47,19 @@ KeyPressedEvent::KeyPressedEvent( KeyModifier keyMod, sf::Keyboard::Key key ) : 
 sf::Keyboard::Key KeyPressedEvent::GetKey()
 {
 	return m_key;
+}
+
+
+// =================================================================================
+// ================================ COLLISION ======================================
+// =================================================================================
+OverlapEvent::OverlapEvent( GameObject& tar ) : m_target( tar )
+{
+}
+
+
+// =================================================================================
+GameObject& OverlapEvent::GetTarget()
+{
+	return m_target;
 }

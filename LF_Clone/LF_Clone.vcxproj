@@ -95,6 +95,9 @@
     <ClCompile Include="..\..\vendor\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\..\vendor\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\Actor.cpp" />
+    <ClCompile Include="src\CollisionSystem.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\ActorFactory.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
@@ -117,6 +120,7 @@
     <ClCompile Include="src\TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CollisionSystem.h" />
     <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\ActorFactory.h" />
