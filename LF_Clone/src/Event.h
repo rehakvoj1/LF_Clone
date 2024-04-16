@@ -3,6 +3,8 @@
 #include <SFML/Window/Event.hpp>
 
 class I_Listener;
+class GameObject;
+class Actor;
 
 // =================================================================================
 class Event
@@ -87,8 +89,18 @@ private:
 };
 
 
+// =================================================================================
+class KeyReleasedEvent : public Event
+{
+public:
+    explicit KeyReleasedEvent( sf::Keyboard::Key );
+    sf::Keyboard::Key GetKey();
 
-class GameObject;
+private:
+    sf::Keyboard::Key m_key;
+};
+
+
 // =================================================================================
 class OverlapEvent : public Event
 {
@@ -101,5 +113,33 @@ private:
 };
 
 
+
+// =================================================================================
+class Projectile;
+class ProjectileDestroyedEvent : public Event
+{
+public:
+    explicit ProjectileDestroyedEvent( Projectile& projectile );
+    Projectile& GetProjectile();
+
+private:
+    Projectile& m_projectile;
+};
+
+
+
+// =================================================================================
+class HitEvent : public Event
+{
+public:
+    explicit HitEvent( float damage, Actor& target );
+    
+    Actor& GetTarget();
+    float GetDamage();
+
+private:
+    float m_damage;
+    Actor& m_target;
+};
 
 #include "Event.inl"

@@ -6,6 +6,7 @@
 #include "ActorFactory.h"
 #include "CollisionSystem.h"
 #include "EntityManager.h"
+#include "Renderer2D.h"
 
 #include "imgui-SFML.h"
 
@@ -19,13 +20,15 @@ TextureManager* C_Engine::m_textureManager = nullptr;
 ActorFactory* C_Engine::m_actorFactory = nullptr;
 CollisionSystem* C_Engine::m_collisionSystem = nullptr;
 EntityManager* C_Engine::m_entityManager = nullptr;
+Renderer2D* C_Engine::m_renderer = nullptr;
 
-float C_Engine::m_deltaTime = 0.0f;
+sf::Time C_Engine::m_time;
 
 
 //===================================================================================================
 C_Engine::C_Engine() : 
-    m_gameInstance( nullptr )
+    m_gameInstance( nullptr ),
+    m_deltaTime( 0.0f )
 {
 }
 
@@ -66,15 +69,22 @@ CollisionSystem* C_Engine::GetCollisionSystem()
     return m_collisionSystem;
 }
 
+//===================================================================================================
 EntityManager* C_Engine::GetEntityManager()
 {
     return m_entityManager;
 }
 
 //===================================================================================================
+Renderer2D* C_Engine::GetRenderer()
+{
+    return m_renderer;
+}
+
+//===================================================================================================
 float C_Engine::GetDeltaTime()
 {
-    return m_deltaTime;
+    return m_time.asSeconds();
 }
 
 //===================================================================================================
@@ -111,12 +121,14 @@ void C_Engine::Run()
 
     while ( m_windowsManager->GetActiveWindow()->IsWindowOpen())
     {
-        m_deltaTime = m_updateClock.restart().asSeconds();
+        m_time = m_updateClock.restart();
+        m_deltaTime = m_time.asSeconds();
         m_sysEventHandler->PollEvents();
         PreUpdate();
         Update();
         PostUpdate();
         Render();
+        PostRender();
     }
 }
 
@@ -137,11 +149,15 @@ void C_Engine::PreUpdate()
 //===================================================================================================
 void C_Engine::Update()
 {
-
+    
     m_collisionSystem->OnUpdate();
     m_gameInstance->OnUpdate( m_deltaTime );
     m_entityManager->UpdateEntities( m_deltaTime );
 
+#ifdef PLATFORM_WINDOWS
+    sf::RenderWindow* winWnd = static_cast<sf::RenderWindow*>( GetWindowsManager()->GetActiveWindow()->GetNativeWindow() );
+    ImGui::SFML::Update( *winWnd, m_time );
+#endif
 }
 
 
@@ -154,8 +170,19 @@ void C_Engine::PostUpdate()
 void C_Engine::Render()
 {
     Window* wnd = GetWindowsManager()->GetActiveWindow();
-    wnd->ClearColor( 30, 30, 30 );
+    wnd->ClearColor( 200, 200, 250 );
+
+    GetRenderer()->OnRender();
+
     wnd->Display();
+}
+
+
+//===================================================================================================
+void C_Engine::PostRender()
+{
+    GetRenderer()->OnPostRender();
+    GetEntityManager()->DeleteZombies();
 }
 
 
@@ -165,36 +192,49 @@ bool C_Engine::InitStaticVariables()
     m_windowsManager = I_WindowsManager::Create();
     if ( !m_windowsManager )
     {
+        std::cout << "Failed to init " << "WINDOWS MANAGER" << std::endl;
         return false;
     }
 
     m_sysEventHandler = I_SystemEventHandler::Create();
     if ( !m_sysEventHandler )
     {
+        std::cout << "Failed to init " << "SYSTEM EVENT HANDLER" << std::endl;
         return false;
     }
 
     m_textureManager = TextureManager::Create();
     if ( !m_textureManager )
     {
+        std::cout << "Failed to init " << "TEXTURE MANAGER" << std::endl;
         return false;
     }
 
     m_actorFactory = ActorFactory::CreateFactoryInstance();
     if ( !m_actorFactory )
     {
+        std::cout << "Failed to init " << "ACTOR FACTORY" << std::endl;
         return false;
     }
 
     m_collisionSystem = CollisionSystem::Create();
     if ( !m_collisionSystem )
     {
+        std::cout << "Failed to init " << "COLLISION SYSTEM" << std::endl;
         return false;
     }
 
     m_entityManager = EntityManager::Create();
     if ( !m_entityManager )
     {
+        std::cout << "Failed to init " << "ENTITY MANAGER" << std::endl;
+        return false;
+    }
+
+    m_renderer = Renderer2D::Create();
+    if ( !m_renderer )
+    {
+        std::cout << "Failed to init " << "RENDERER" << std::endl;
         return false;
     }
 

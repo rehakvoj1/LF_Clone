@@ -23,6 +23,7 @@ public:
 	virtual void OnStart() override;
 	virtual void OnUpdate( float dt ) override;
 	
+private:
 	void OnKeyPressed( KeyPressedEvent& e );
 	void OnWindowClosed( WindowClosedEvent& e );
 

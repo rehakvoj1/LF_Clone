@@ -10,6 +10,8 @@
 #include "Enemy.h"
 #include "FrostboltProjectile.h"
 #include "FireballProjectile.h"
+#include "PlayerHealthbar.h"
+#include "EntityManager.h"
 
 #include <typeinfo>
 #include <iostream>
@@ -38,11 +40,17 @@ void C_LfCloneGame::OnStart()
 	C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::SORCERER ) );
 	C_Engine::GetTextureManager()->GetTexture( g_texFilepaths.at( ecTexture::SORCERER_MIRROR ) );
 
-	C_Engine::GetActorFactory()->RegisterObject( "player", Player::Create );
+	C_Engine::GetActorFactory()->RegisterObject( "playerSorcerer", Player::CreateSorcerer );
 	C_Engine::GetActorFactory()->RegisterObject( "enemy", Enemy::Create );
 	C_Engine::GetActorFactory()->RegisterObject( "frostboltLeft", FrostboltProjectile::CreateLeft );
 	C_Engine::GetActorFactory()->RegisterObject( "frostboltRight", FrostboltProjectile::CreateRight );
 	C_Engine::GetActorFactory()->RegisterObject( "fireballRight", FireballProjectile::CreateRight );
+	C_Engine::GetActorFactory()->RegisterObject( "playerHealthbar", PlayerHealthbar::Create );
+
+	
+	C_Engine::GetEntityManager()->AddObject("playerSorcerer", "player1", true );
+	C_Engine::GetEntityManager()->AddObject("enemy", "enemy", true );
+	C_Engine::GetEntityManager()->AddObject("playerHealthbar", "playerhealthbar", true );
 
 }
 

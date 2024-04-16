@@ -29,7 +29,7 @@ class TextureManager;
 class ActorFactory;
 class CollisionSystem;
 class EntityManager;
-
+class Renderer2D;
 
 class C_Engine
 {
@@ -45,6 +45,7 @@ public:
 	static CollisionSystem*			GetCollisionSystem();
 	static EntityManager*			GetEntityManager();
 	static float					GetDeltaTime();
+	static Renderer2D*				GetRenderer();
 	
 	
 	bool Init( EngineInitParams params );
@@ -58,19 +59,22 @@ private:
 	void Update();
 	void PostUpdate();
 	void Render();
+	void PostRender();
 	bool InitStaticVariables();
 
 
 	
 	I_Game* m_gameInstance;
-	static I_WindowsManager* m_windowsManager;
-	static I_SystemEventHandler* m_sysEventHandler;
-	static TextureManager* m_textureManager;
-	static ActorFactory* m_actorFactory;
-	static CollisionSystem* m_collisionSystem;
-	static EntityManager* m_entityManager;
+	static I_WindowsManager*		m_windowsManager;
+	static I_SystemEventHandler*	m_sysEventHandler;
+	static TextureManager*			m_textureManager;
+	static ActorFactory*			m_actorFactory;
+	static CollisionSystem*			m_collisionSystem;
+	static EntityManager*			m_entityManager;
+	static Renderer2D*				m_renderer;
 
 	sf::Clock m_updateClock;
-	static float m_deltaTime;
+	static sf::Time m_time;
+	float m_deltaTime;
 };
 

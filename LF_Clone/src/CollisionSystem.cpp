@@ -1,6 +1,8 @@
 #include "CollisionSystem.h"
 #include "Event.h"
 
+#include <iostream>
+
 
 //===================================================================================================
 CollisionSystem* CollisionSystem::Create()
@@ -10,9 +12,10 @@ CollisionSystem* CollisionSystem::Create()
 
 
 //===================================================================================================
-void CollisionSystem::RegisterCollider( GameObject* collider, CollisionFilter collidingObjects )
+void CollisionSystem::RegisterCollider( GameObject* obj, CollisionFilter collider, CollisionFilter collidesWith )
 {
-    m_colliders.insert_or_assign( collider, collidingObjects );
+    auto col = std::make_pair( collider, collidesWith );
+    m_colliders.insert_or_assign( obj, col );
 }
 
 
@@ -36,14 +39,14 @@ void CollisionSystem::OnUpdate()
             AABB2D* srcCollider = src.first->GetAABB2D();
             AABB2D* tarCollider = tar.first->GetAABB2D();
 
-            if ( ( src.second & tar.second ) > 0 &&         // if they can collide with each other
-                 srcCollider->Overlaps( *tarCollider ) )    // if they actually colliding
+            if ( ( src.second.first & tar.second.second ) > 0 &&    // if they can collide with each other
+                 srcCollider->Overlaps( *tarCollider ) )            // if they actually colliding
             {
                 OverlapEvent event( *(tar.first) );
                 auto overlapCallbacks = m_callbacks.equal_range( typeid( OverlapEvent ) );
                 for ( auto it = overlapCallbacks.first; it != overlapCallbacks.second; ++it )
                 {
-                    if ( static_cast<void*>( it->second.first ) == src.first )
+                    if ( dynamic_cast<GameObject*>( it->second.first )->GetID() == src.first->GetID() )
                     {
                         it->second.second->Exec( event, it->second.first );
                     }

@@ -1,4 +1,5 @@
 #include "WindowsWindow.h"
+#include "Actor.h"
 
 #include "imgui-SFML.h"
 
@@ -88,7 +89,24 @@ void WindowsWindow::Close()
 //===================================================================================================
 void WindowsWindow::Display()
 {
+	ImGui::SFML::Render( m_window );
 	m_window.display();
+}
+
+//===================================================================================================
+void WindowsWindow::Draw( Actor* actor )
+{
+	m_window.draw( *( actor->GetDrawable() ) );
+	ImVec2 lo = actor->GetAABB2D()->t_lo;
+	ImVec2 hi = actor->GetAABB2D()->t_hi;
+
+
+	sf::RectangleShape aabb( { hi.x - lo.x,hi.y - lo.y } );
+	aabb.setPosition( actor->GetAABB2D()->t_lo );
+	aabb.setFillColor( sf::Color::Transparent );
+	aabb.setOutlineColor( sf::Color::Yellow );
+	aabb.setOutlineThickness( 2.f );
+	m_window.draw( aabb );
 }
 
 //===================================================================================================

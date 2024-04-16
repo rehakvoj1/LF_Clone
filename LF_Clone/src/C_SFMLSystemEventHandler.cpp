@@ -91,7 +91,12 @@ void C_SFMLSystemEventHandler::PollEvents()
                 break;
             case sf::Event::KeyReleased:
             {
-
+                KeyReleasedEvent keyReleased( event.key.code );
+                auto keyReleasedCallbacks = m_callbacks.equal_range( typeid( KeyReleasedEvent ) );
+                for ( auto it = keyReleasedCallbacks.first; it != keyReleasedCallbacks.second; ++it )
+                {
+                    it->second.second->Exec( keyReleased, it->second.first );
+                }
             }
                 break;
             case sf::Event::MouseButtonPressed:

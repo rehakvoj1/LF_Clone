@@ -20,12 +20,16 @@ void I_Publisher::UnregisterListener( I_Listener* listener )
 	for ( auto it = eventsOfListenerRange.first; it != eventsOfListenerRange.second; ++it )
 	{
 		auto callbacksOfEventRange = m_callbacks.equal_range( it->second );
-		for ( auto it2 = callbacksOfEventRange.first; it2 != callbacksOfEventRange.second; ++it2 )
+		for ( auto it2 = callbacksOfEventRange.first; it2 != callbacksOfEventRange.second; )
 		{
 			if ( it2->second.first == listener )
 			{
 				delete it2->second.second;
-				m_callbacks.erase( it2 );	//	Deletes callbacks of listener
+				m_callbacks.erase( it2++ );	//	Deletes callbacks of listener
+			}
+			else
+			{
+				++it2;
 			}
 		}
 	}

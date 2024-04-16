@@ -10,6 +10,7 @@ enum class ecTexture
 	FROSTBOLT,
 	FROSTBOLT_MIRROR,
 	ENEMY,
+	ENEMY_MIRROR,
 	FIREBALL,
 	FIREBALL_MIRROR
 };
@@ -23,6 +24,7 @@ const std::unordered_map<ecTexture, std::string> g_texFilepaths
 	{ecTexture::FROSTBOLT, "./resource/freeze_ball.png"},
 	{ecTexture::FROSTBOLT_MIRROR, "./resource/freeze_ball_mirror.png"},
 	{ecTexture::ENEMY, "./resource/firen_0.png"},
+	{ecTexture::ENEMY_MIRROR, "./resource/firen_0_mirror.png"},
 	{ecTexture::FIREBALL, "./resource/firen_ball.png"},
 	{ecTexture::FIREBALL_MIRROR, "./resource/firen_ball_mirror.png"}
 };

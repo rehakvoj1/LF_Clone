@@ -1,5 +1,6 @@
 #include "Event.h"
 #include "GameObject.h"
+#include "Actor.h"
 
 // =================================================================================
 Event::~Event()
@@ -62,4 +63,45 @@ OverlapEvent::OverlapEvent( GameObject& tar ) : m_target( tar )
 GameObject& OverlapEvent::GetTarget()
 {
 	return m_target;
+}
+
+
+// =================================================================================
+// ================================ KEY RELEASED ===================================
+// =================================================================================
+KeyReleasedEvent::KeyReleasedEvent( sf::Keyboard::Key key ) : m_key{ key }
+{
+}
+
+sf::Keyboard::Key KeyReleasedEvent::GetKey()
+{
+	return m_key;
+}
+
+
+
+// =================================================================================
+// ================================ KEY RELEASED ===================================
+// =================================================================================
+ProjectileDestroyedEvent::ProjectileDestroyedEvent( Projectile& projectile ) : m_projectile{ projectile }
+{
+}
+
+Projectile& ProjectileDestroyedEvent::GetProjectile()
+{
+	return m_projectile;
+}
+
+HitEvent::HitEvent( float damage, Actor& target ) : m_damage(damage), m_target(target)
+{
+}
+
+Actor& HitEvent::GetTarget()
+{
+	return m_target;
+}
+
+float HitEvent::GetDamage()
+{
+	return m_damage;
 }

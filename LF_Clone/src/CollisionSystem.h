@@ -20,12 +20,12 @@ public:
 public:
 	static CollisionSystem* Create();
 
-	void RegisterCollider( GameObject* collider, CollisionFilter collidingObjects );
+	void RegisterCollider( GameObject* obj, CollisionFilter collider, CollisionFilter collidesWith);
 	void UnregisterCollider( GameObject* collider );
 	void OnUpdate();
 
 protected:
-	std::map<GameObject*, CollisionFilter> m_colliders;
+	std::map<GameObject*, std::pair<CollisionFilter, CollisionFilter> > m_colliders;
 
 private:
 };

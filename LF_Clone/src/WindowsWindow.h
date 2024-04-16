@@ -5,6 +5,9 @@
 
 #include <string>
 
+
+class Actor;
+
 class WindowsWindow : public Window
 {
 public:
@@ -19,6 +22,7 @@ public:
 	virtual bool									IsWindowOpen() override;
 	virtual void									Close() override;
 	virtual void									Display() override;
+	virtual void									Draw( Actor* actor ) override;
 	virtual void									ClearColor( uint8_t r, uint8_t g, uint8_t b ) override;
 
 	virtual void									SetWidth( unsigned int width ) override;

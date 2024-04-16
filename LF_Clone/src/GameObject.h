@@ -8,6 +8,7 @@ class GameObject
 {
 public:
 	GameObject( std::string id );
+	virtual ~GameObject();
 	std::string& GetID();
 
 	virtual AABB2D* GetAABB2D() = 0;
