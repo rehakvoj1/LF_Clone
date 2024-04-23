@@ -12,12 +12,14 @@ FireballProjectile::FireballProjectile( std::string id, float speed, ActorDirect
 {
 }
 
+//===================================================================================================
 FireballProjectile::~FireballProjectile()
 {
 
 }
 
 
+//===================================================================================================
 void FireballProjectile::OnCreate()
 {
 	Projectile::OnCreate();
